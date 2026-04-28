@@ -1,0 +1,31 @@
+# Machine-local FDE OS settings and audit data
+.fde-os/config.local.yaml
+.fde-os/*.local.yaml
+.fde-os/audit/
+.fde-os/active-engagement
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Node
+node_modules/
+.next/
+dist/
+build/
+
+# Environment and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
