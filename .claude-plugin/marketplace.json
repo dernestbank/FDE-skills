@@ -1,0 +1,28 @@
+{
+  "name": "fde-os-marketplace",
+  "owner": {
+    "name": "Ernest Boakye Danquah"
+  },
+  "metadata": {
+    "description": "Marketplace source for FDE OS skills and plugin",
+    "version": "0.2.0"
+  },
+  "plugins": [
+    {
+      "name": "fde-os",
+      "description": "Evidence-driven Forward Deployed Engineering for human-supervised AI systems",
+      "author": {
+        "name": "Ernest Boakye Danquah"
+      },
+      "tags": [
+        "forward-deployed-engineering",
+        "applied-ai",
+        "workflow-automation",
+        "human-in-the-loop",
+        "evaluation",
+        "knowledge-management"
+      ],
+      "source": "./"
+    }
+  ]
+}
