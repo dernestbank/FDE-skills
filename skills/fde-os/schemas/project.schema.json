@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fde-os.dev/schemas/project.schema.json",
+  "title": "FDE Project",
+  "type": "object",
+  "required": ["project_id", "organization_id", "name", "objective", "status", "current_phase", "created_at"],
+  "properties": {
+    "project_id": {"type": "string", "minLength": 1},
+    "organization_id": {"type": "string", "minLength": 1},
+    "name": {"type": "string", "minLength": 1},
+    "objective": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "active", "blocked", "paused", "completed", "archived"]},
+    "current_phase": {"enum": ["INTAKE", "DISCOVER", "OBSERVE", "MAP", "PRIORITIZE", "DESIGN", "BUILD", "EVALUATE", "DEPLOY", "OPERATE_AND_IMPROVE"]},
+    "sponsor_id": {"type": ["string", "null"]},
+    "owner_id": {"type": ["string", "null"]},
+    "workflow_owner_id": {"type": ["string", "null"]},
+    "scope": {
+      "type": "object",
+      "properties": {
+        "included": {"type": "array", "items": {"type": "string"}},
+        "excluded": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "success_metrics": {"type": "array", "items": {"type": "object"}},
+    "assumptions": {"type": "array", "items": {"type": "string"}},
+    "risk_ids": {"type": "array", "items": {"type": "string"}},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}

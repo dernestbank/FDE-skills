@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fde-os.dev/schemas/evaluation.schema.json",
+  "title": "FDE Evaluation Plan and Result",
+  "type": "object",
+  "required": ["evaluation_id", "project_id", "target_id", "version", "metrics", "datasets", "decision"],
+  "properties": {
+    "evaluation_id": {"type": "string"},
+    "project_id": {"type": "string"},
+    "target_id": {"type": "string"},
+    "version": {"type": "string"},
+    "purpose": {"type": "string"},
+    "baseline": {"type": "object"},
+    "datasets": {"type": "array", "items": {"type": "object"}},
+    "metrics": {"type": "array", "items": {"type": "object", "required": ["name", "threshold"], "properties": {"name": {"type": "string"}, "baseline": {"type": ["number", "string", "null"]}, "threshold": {"type": ["number", "string"]}, "measured_value": {"type": ["number", "string", "null"]}, "criticality": {"enum": ["low", "medium", "high", "critical"]}}, "additionalProperties": true}},
+    "failure_taxonomy": {"type": "array", "items": {"type": "object"}},
+    "critical_cases": {"type": "array", "items": {"type": "string"}},
+    "cost": {"type": "object"},
+    "latency": {"type": "object"},
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "decision": {"enum": ["APPROVE", "APPROVE_WITH_CONDITIONS", "REJECT", "MORE_EVIDENCE_REQUIRED"]},
+    "approved_by": {"type": ["string", "null"]},
+    "created_at": {"type": "string", "format": "date-time"}
+  },
+  "additionalProperties": false
+}

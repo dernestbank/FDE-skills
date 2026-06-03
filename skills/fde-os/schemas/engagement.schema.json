@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fde-os.local/schemas/engagement.schema.json",
+  "title": "FDE Engagement",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_contract",
+    "artifact_readiness",
+    "engagement_id",
+    "organization",
+    "workflow",
+    "owner",
+    "scope_tier",
+    "created",
+    "last_updated",
+    "claims",
+    "evidence",
+    "decisions"
+  ],
+  "properties": {
+    "artifact_contract": {
+      "const": "fde-engagement/v1"
+    },
+    "artifact_readiness": {
+      "enum": [
+        "intake",
+        "discovery-grounded",
+        "mapped",
+        "prioritized",
+        "design-ready",
+        "evaluation-ready",
+        "deployment-ready",
+        "operational"
+      ]
+    },
+    "engagement_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "organization": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workflow": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope_tier": {
+      "enum": ["lightweight", "standard", "deep"]
+    },
+    "confidentiality": {
+      "enum": ["public", "internal", "confidential", "restricted"]
+    },
+    "created": {
+      "type": "string",
+      "format": "date"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date"
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/claim"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidence"
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "$ref": "decision.schema.json"
+      }
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["risk_id", "description", "status"],
+        "properties": {
+          "risk_id": {"type": "string"},
+          "description": {"type": "string"},
+          "severity": {"enum": ["blocking", "high", "medium", "low"]},
+          "owner": {"type": "string"},
+          "status": {"enum": ["open", "mitigated", "accepted", "closed"]},
+          "evidence_ids": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "$defs": {
+    "claimLabel": {
+      "enum": [
+        "MEASURED",
+        "OBSERVED",
+        "DOCUMENTED",
+        "STAKEHOLDER_REPORTED",
+        "ESTIMATED",
+        "ASSUMED",
+        "DISPUTED",
+        "UNKNOWN"
+      ]
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "label", "statement", "evidence_ids"],
+      "properties": {
+        "claim_id": {"type": "string"},
+        "label": {"$ref": "#/$defs/claimLabel"},
+        "statement": {"type": "string"},
+        "evidence_ids": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_id", "type", "source", "sensitivity"],
+      "properties": {
+        "evidence_id": {"type": "string"},
+        "type": {"type": "string"},
+        "source": {"type": "string"},
+        "date": {"type": "string"},
+        "owner": {"type": "string"},
+        "sensitivity": {
+          "enum": ["public", "internal", "confidential", "restricted"]
+        },
+        "reliability_notes": {"type": "string"},
+        "artifact_path": {"type": "string"}
+      }
+    }
+  }
+}

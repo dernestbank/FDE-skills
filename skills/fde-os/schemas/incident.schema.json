@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fde-os.dev/schemas/incident.schema.json",
+  "title": "FDE Incident",
+  "type": "object",
+  "required": ["incident_id", "project_id", "severity", "status", "summary", "detected_at"],
+  "properties": {
+    "incident_id": {"type": "string"},
+    "project_id": {"type": "string"},
+    "deployment_id": {"type": ["string", "null"]},
+    "severity": {"enum": ["low", "medium", "high", "critical"]},
+    "status": {"enum": ["open", "contained", "investigating", "resolved", "closed"]},
+    "summary": {"type": "string"},
+    "impact": {"type": "string"},
+    "detected_at": {"type": "string", "format": "date-time"},
+    "reported_by": {"type": ["string", "null"]},
+    "owner_id": {"type": ["string", "null"]},
+    "affected_runs": {"type": "array", "items": {"type": "string"}},
+    "containment_actions": {"type": "array", "items": {"type": "string"}},
+    "root_causes": {"type": "array", "items": {"type": "string"}},
+    "corrective_actions": {"type": "array", "items": {"type": "string"}},
+    "resolved_at": {"type": ["string", "null"], "format": "date-time"}
+  },
+  "additionalProperties": false
+}

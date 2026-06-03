@@ -1,0 +1,33 @@
+{
+  "project_id": "prj_example_001",
+  "organization_id": "org_example",
+  "name": "Supplier Sustainability Data Intake",
+  "objective": "Reduce manual preparation time while preserving expert review for uncertain mappings.",
+  "status": "active",
+  "current_phase": "PRIORITIZE",
+  "sponsor_id": "stk_sponsor",
+  "owner_id": "stk_project_owner",
+  "workflow_owner_id": "stk_sustainability_lead",
+  "scope": {
+    "included": ["supplier spreadsheet and PDF intake", "required-field validation", "category recommendations", "human review"],
+    "excluded": ["automatic publication of regulatory reports", "unreviewed emissions-factor selection"]
+  },
+  "success_metrics": [
+    {
+      "name": "median preparation time per supplier submission",
+      "baseline": "unknown - measurement required",
+      "target": "at least 40% reduction after approved pilot"
+    },
+    {
+      "name": "critical field false-negative rate",
+      "target": 0
+    }
+  ],
+  "assumptions": [
+    "Representative historical submissions can be obtained with authorization.",
+    "A sustainability analyst will review uncertain mappings."
+  ],
+  "risk_ids": ["risk_sensitive_supplier_data", "risk_incorrect_mapping"],
+  "created_at": "2026-07-22T10:00:00Z",
+  "updated_at": "2026-07-22T10:00:00Z"
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fde-os.dev/schemas/opportunity.schema.json",
+  "title": "FDE Opportunity",
+  "type": "object",
+  "required": ["opportunity_id", "workflow_id", "name", "problem", "business_value_score", "workflow_suitability_score", "technical_feasibility_score", "deployment_readiness_score", "time_to_value_score", "risk_score", "recommendation"],
+  "properties": {
+    "opportunity_id": {"type": "string"},
+    "workflow_id": {"type": "string"},
+    "name": {"type": "string"},
+    "problem": {"type": "string"},
+    "candidate_solution": {"type": "string"},
+    "owner_id": {"type": ["string", "null"]},
+    "business_value_score": {"type": "number", "minimum": 1, "maximum": 5},
+    "workflow_suitability_score": {"type": "number", "minimum": 1, "maximum": 5},
+    "technical_feasibility_score": {"type": "number", "minimum": 1, "maximum": 5},
+    "data_readiness_score": {"type": "number", "minimum": 1, "maximum": 5},
+    "deployment_readiness_score": {"type": "number", "minimum": 1, "maximum": 5},
+    "time_to_value_score": {"type": "number", "minimum": 1, "maximum": 5},
+    "measurability_score": {"type": "number", "minimum": 1, "maximum": 5},
+    "risk_score": {"type": "number", "minimum": 1, "maximum": 5},
+    "weighted_score": {"type": ["number", "null"]},
+    "recommendation": {"enum": ["BUILD_NOW", "PROTOTYPE", "PREPARE_PREREQUISITES", "DO_NOT_AUTOMATE"]},
+    "alternatives_considered": {"type": "array", "items": {"type": "string"}},
+    "assumptions": {"type": "array", "items": {"type": "string"}},
+    "risks": {"type": "array", "items": {"type": "string"}},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

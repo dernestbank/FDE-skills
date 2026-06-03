@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fde-os.dev/schemas/deployment.schema.json",
+  "title": "FDE Deployment Plan",
+  "type": "object",
+  "required": ["deployment_id", "project_id", "target_id", "current_stage", "target_stage", "stages", "monitoring", "rollback"],
+  "properties": {
+    "deployment_id": {"type": "string"},
+    "project_id": {"type": "string"},
+    "target_id": {"type": "string"},
+    "current_stage": {"enum": ["HISTORICAL_REPLAY", "SANDBOX", "SHADOW", "RECOMMENDATION", "APPROVAL", "BOUNDED_AUTONOMY", "CONDITIONAL_AUTONOMY", "MONITORED_PRODUCTION"]},
+    "target_stage": {"enum": ["HISTORICAL_REPLAY", "SANDBOX", "SHADOW", "RECOMMENDATION", "APPROVAL", "BOUNDED_AUTONOMY", "CONDITIONAL_AUTONOMY", "MONITORED_PRODUCTION"]},
+    "owner_id": {"type": ["string", "null"]},
+    "stages": {"type": "array", "items": {"type": "object", "required": ["stage", "entry_criteria", "exit_criteria", "permitted_actions", "rollback_triggers"], "properties": {"stage": {"type": "string"}, "entry_criteria": {"type": "array", "items": {"type": "string"}}, "exit_criteria": {"type": "array", "items": {"type": "string"}}, "permitted_actions": {"type": "array", "items": {"type": "string"}}, "approver_id": {"type": ["string", "null"]}, "rollback_triggers": {"type": "array", "items": {"type": "string"}}}, "additionalProperties": true}},
+    "monitoring": {"type": "array", "items": {"type": "object"}},
+    "rollback": {"type": "object"},
+    "incident_owners": {"type": "array", "items": {"type": "object"}},
+    "approvals": {"type": "array", "items": {"type": "object"}}
+  },
+  "additionalProperties": false
+}
