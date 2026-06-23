@@ -1,0 +1,25 @@
+# FDE OS local project preferences.
+# Copy to .fde-os/config.local.yaml and enable only what you need.
+# Keep the local file gitignored.
+
+# artifact_root: docs/fde
+# default_output: md
+# default_scope_tier: standard
+# discovery_question_mode: one-at-a-time
+# require_independent_review: true
+# require_security_review_for_external_writes: true
+# require_evaluation_before_deployment: true
+# default_human_control_level: 3
+# allow_external_writes: false
+# allow_background_research: true
+# pulse_window_days: 30
+# compound_mode: full
+# redact_sensitive_evidence: true
+
+# Optional MCP capability names. These do not grant permission.
+# mcp:
+#   document_sources: []
+#   communication_sources: []
+#   business_systems: []
+#   code_and_data_sources: []
+#   deployment_systems: []
