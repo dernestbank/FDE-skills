@@ -1,0 +1,10 @@
+{
+  "fde-os": {
+    "command": "python",
+    "args": ["-m", "fde_os_mcp"],
+    "env": {
+      "FDE_OS_DATA_DIR": "${FDE_OS_DATA_DIR:-.fde-os}",
+      "FDE_OS_LOG_LEVEL": "INFO"
+    }
+  }
+}
