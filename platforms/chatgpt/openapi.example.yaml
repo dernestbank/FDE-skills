@@ -1,0 +1,315 @@
+openapi: 3.1.0
+info:
+  title: FDE OS Actions API
+  version: 0.2.0-example
+  description: >-
+    Example REST surface for a Custom GPT. Replace servers, authentication,
+    schemas, and operation policies before use. This file is not an active API.
+servers:
+  - url: https://api.example.com/fde-os/v1
+security:
+  - oauth2: []
+paths:
+  /engagements:
+    get:
+      operationId: listEngagements
+      summary: List engagements the authenticated user may access
+      responses:
+        '200':
+          description: Engagement summaries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EngagementSummary'
+    post:
+      operationId: createEngagement
+      summary: Create a new FDE engagement dossier
+      description: Creates project state only; it does not authorize external-system writes.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEngagementRequest'
+      responses:
+        '201':
+          description: Created engagement
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Engagement'
+  /engagements/{engagementId}:
+    get:
+      operationId: getEngagement
+      summary: Get the canonical engagement dossier and readiness
+      parameters:
+        - $ref: '#/components/parameters/EngagementId'
+      responses:
+        '200':
+          description: Engagement
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Engagement'
+  /engagements/{engagementId}/sections/{sectionId}:
+    patch:
+      operationId: updateEngagementSection
+      summary: Version and update one engagement section
+      description: Requires an expected version to prevent silent overwrite.
+      parameters:
+        - $ref: '#/components/parameters/EngagementId'
+        - name: sectionId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [expectedVersion, content, claimLabels]
+              properties:
+                expectedVersion:
+                  type: integer
+                  minimum: 1
+                content:
+                  type: string
+                claimLabels:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/ClaimLabel'
+                evidenceIds:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Updated section and new version
+        '409':
+          description: Version conflict
+  /engagements/{engagementId}/evidence:
+    post:
+      operationId: addEvidenceReference
+      summary: Add a source reference to the engagement evidence registry
+      parameters:
+        - $ref: '#/components/parameters/EngagementId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvidenceReference'
+      responses:
+        '201':
+          description: Evidence reference created
+  /engagements/{engagementId}/decisions:
+    post:
+      operationId: recordDecision
+      summary: Append a decision record without overwriting prior decisions
+      parameters:
+        - $ref: '#/components/parameters/EngagementId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecisionRecord'
+      responses:
+        '201':
+          description: Decision recorded
+  /engagements/{engagementId}/reviews:
+    get:
+      operationId: listPendingReviews
+      summary: List human reviews pending for an engagement
+      parameters:
+        - $ref: '#/components/parameters/EngagementId'
+      responses:
+        '200':
+          description: Pending reviews
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReviewRequest'
+  /reviews/{reviewId}/decision:
+    post:
+      operationId: decideReview
+      summary: Approve, reject, edit-and-approve, or escalate a review
+      description: The backend must verify reviewer identity, role, scope, and consequence.
+      parameters:
+        - name: reviewId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [decision]
+              properties:
+                decision:
+                  type: string
+                  enum: [approve, reject, edit_and_approve, escalate]
+                editedPayload:
+                  type: object
+                  additionalProperties: true
+                reason:
+                  type: string
+      responses:
+        '200':
+          description: Review decision recorded
+        '403':
+          description: Authenticated user lacks the required role
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.example.com/oauth/authorize
+          tokenUrl: https://auth.example.com/oauth/token
+          scopes: {}
+  parameters:
+    EngagementId:
+      name: engagementId
+      in: path
+      required: true
+      schema:
+        type: string
+  schemas:
+    ClaimLabel:
+      type: string
+      enum:
+        - MEASURED
+        - OBSERVED
+        - DOCUMENTED
+        - STAKEHOLDER_REPORTED
+        - ESTIMATED
+        - ASSUMED
+        - DISPUTED
+        - UNKNOWN
+    EngagementSummary:
+      type: object
+      required: [engagementId, organization, workflow, readiness, updatedAt]
+      properties:
+        engagementId:
+          type: string
+        organization:
+          type: string
+        workflow:
+          type: string
+        readiness:
+          $ref: '#/components/schemas/Readiness'
+        updatedAt:
+          type: string
+          format: date-time
+    Engagement:
+      allOf:
+        - $ref: '#/components/schemas/EngagementSummary'
+        - type: object
+          properties:
+            owner:
+              type: string
+            scopeTier:
+              type: string
+              enum: [lightweight, standard, deep]
+            version:
+              type: integer
+            sections:
+              type: object
+              additionalProperties: true
+    CreateEngagementRequest:
+      type: object
+      required: [organization, workflow, objective, scopeTier]
+      properties:
+        organization:
+          type: string
+        workflow:
+          type: string
+        objective:
+          type: string
+        owner:
+          type: string
+        scopeTier:
+          type: string
+          enum: [lightweight, standard, deep]
+        confidentiality:
+          type: string
+          enum: [public, internal, confidential, restricted]
+    Readiness:
+      type: string
+      enum:
+        - intake
+        - discovery-grounded
+        - mapped
+        - prioritized
+        - design-ready
+        - evaluation-ready
+        - deployment-ready
+        - operational
+    EvidenceReference:
+      type: object
+      required: [type, source, claimLabel]
+      properties:
+        type:
+          type: string
+        source:
+          type: string
+        date:
+          type: string
+        owner:
+          type: string
+        sensitivity:
+          type: string
+        reliabilityNotes:
+          type: string
+        claimLabel:
+          $ref: '#/components/schemas/ClaimLabel'
+    DecisionRecord:
+      type: object
+      required: [owner, decision, evidenceIds, status]
+      properties:
+        owner:
+          type: string
+        decision:
+          type: string
+        alternatives:
+          type: array
+          items:
+            type: string
+        evidenceIds:
+          type: array
+          items:
+            type: string
+        assumptions:
+          type: array
+          items:
+            type: string
+        reversalTrigger:
+          type: string
+        status:
+          type: string
+          enum: [proposed, approved, rejected, superseded]
+    ReviewRequest:
+      type: object
+      required: [reviewId, type, consequence, requiredRole, status]
+      properties:
+        reviewId:
+          type: string
+        type:
+          type: string
+        consequence:
+          type: string
+        requiredRole:
+          type: string
+        status:
+          type: string
+          enum: [pending, approved, rejected, escalated]
