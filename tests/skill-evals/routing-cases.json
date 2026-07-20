@@ -1,0 +1,77 @@
+[
+  {
+    "id": "route-setup",
+    "prompt": "I installed FDE OS but the commands are not appearing. Check the plugin.",
+    "expected_skill": "fde-setup"
+  },
+  {
+    "id": "route-start",
+    "prompt": "Start an engagement to improve supplier emissions data intake for our sustainability team.",
+    "expected_skill": "fde-start"
+  },
+  {
+    "id": "route-discover",
+    "prompt": "The SOP says invoices arrive by email, but users say the process is more complicated. Investigate it.",
+    "expected_skill": "fde-discover"
+  },
+  {
+    "id": "route-map",
+    "prompt": "Turn the interviews and transaction samples into a current-state workflow and system map.",
+    "expected_skill": "fde-map"
+  },
+  {
+    "id": "route-prioritize",
+    "prompt": "We found twelve bottlenecks. Rank them and select the best pilot, including non-AI options.",
+    "expected_skill": "fde-prioritize"
+  },
+  {
+    "id": "route-design",
+    "prompt": "Design the future-state architecture, human approvals, tool contracts, and failure handling for the selected pilot.",
+    "expected_skill": "fde-design"
+  },
+  {
+    "id": "route-review",
+    "prompt": "Independently critique this architecture for security, evaluation, adoption, and deployment risk.",
+    "expected_skill": "fde-review"
+  },
+  {
+    "id": "route-build",
+    "prompt": "The design has been approved. Implement the agent tools, validation, review queue, traces, and tests.",
+    "expected_skill": "fde-build"
+  },
+  {
+    "id": "route-evaluate",
+    "prompt": "Create a golden dataset and test tool selection, escalation, cost, latency, and end-to-end completion.",
+    "expected_skill": "fde-evaluate"
+  },
+  {
+    "id": "route-deploy",
+    "prompt": "Plan shadow mode, approval mode, rollback, monitoring, ownership, and the autonomy gates.",
+    "expected_skill": "fde-deploy"
+  },
+  {
+    "id": "route-pulse",
+    "prompt": "Summarize the last 30 days of production adoption, overrides, failures, cost, latency, and business impact.",
+    "expected_skill": "fde-pulse"
+  },
+  {
+    "id": "route-compound",
+    "prompt": "Document the verified lesson that vendor-name matching should use deterministic normalization before an LLM fallback.",
+    "expected_skill": "fde-compound"
+  },
+  {
+    "id": "route-handoff",
+    "prompt": "Create a handoff so another engineer can resume this engagement tomorrow without reading the chat.",
+    "expected_skill": "fde-handoff"
+  },
+  {
+    "id": "route-status",
+    "prompt": "Where does this engagement stand, what is blocking it, and what should we do next?",
+    "expected_skill": "fde-status"
+  },
+  {
+    "id": "route-report",
+    "prompt": "Create an executive deployment-readiness report from the approved engagement artifacts.",
+    "expected_skill": "fde-report"
+  }
+]
