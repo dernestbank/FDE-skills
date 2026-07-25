@@ -43,3 +43,4 @@
 - Added starter deterministic hooks and validation scripts.
 - Added Claude plugin and MCP configuration placeholders.
 - Added initial sustainability data-intake example.
+
